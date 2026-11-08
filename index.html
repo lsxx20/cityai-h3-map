@@ -265,6 +265,8 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
         flood: {
           name: "淹水潛勢（第三代）", title: "淹水潛勢 H3 地圖",
           source: "資料：經濟部水利署第三代淹水潛勢圖（各縣市民國 103 到 105 年製作，已超過每五年檢討一次的期限），只供防救災參考。顏色是淹 0.3 公尺以上的面積占格子的比例",
+          // 只在臺中市兩個重複的情境（FL_DUP）接在資料來源後面
+          dupNote: "臺中市在 12 小時 400 毫米與 24 小時 500 毫米兩個情境的原始圖資完全相同，研判為製作錯誤，無法確認何者正確，因此這兩個情境不顯示臺中市",
           m: byScen((sc) => FL_ZH[sc]),
           legend: byScen((sc) => `淹 0.3 公尺以上占格子面積，${FL_ZH[sc]}`),
           unit: "%",
@@ -335,6 +337,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
         flood: {
           name: "Flood potential (3rd generation)", title: "Taiwan Flood Potential on H3",
           source: "Source: Water Resources Agency, third-generation flood potential maps (made 2014 to 2016 by county; past the required five-year review). For disaster preparedness only. Color shows the share of each cell flooded 0.3 m or deeper",
+          dupNote: "In Taichung, the source data for the 12 h 400 mm and 24 h 500 mm scenarios are identical, most likely a production error. As the correct version cannot be determined, Taichung is not shown for either scenario",
           m: byScen((sc) => FL_EN[sc]),
           legend: byScen((sc) => `Share of cell flooded 0.3 m or deeper, ${FL_EN[sc]}`),
           unit: "%",
@@ -670,13 +673,18 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
     sel.value = state.metric[state.ds];
     sel.disabled = DS[state.ds].metrics.length === 1;
   }
+  // 資料來源那一行；淹水潛勢選到臺中市重複的兩個情境時，後面接上說明
+  function sourceText() {
+    const d = dt();
+    return d.dupNote && FL_DUP[state.metric[state.ds]] ? d.source + (state.lang === "en" ? ". " : "。") + d.dupNote : d.source;
+  }
   function applyText() {
     const L = t();
     document.documentElement.lang = L.htmlLang;
     document.title = L.page;
     document.querySelectorAll("[data-t]").forEach((el) => { el.textContent = L[el.dataset.t]; });
     document.getElementById("title").textContent = dt().title;
-    document.getElementById("source").textContent = dt().source;
+    document.getElementById("source").textContent = sourceText();
     document.querySelectorAll("#ds option").forEach((o) => { o.textContent = L.ds[o.value].name; });
     document.getElementById("ds").value = state.ds;
     fillMetricOptions();
@@ -747,6 +755,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
       (few ? `<li><i style="background:rgb(${fewColor.join(",")})"></i>${L.few(few)}</li>` : "") +
       `</ul>`;
     document.getElementById("summary").textContent = dt().summary(s, state.res, fmt, m);
+    document.getElementById("source").textContent = sourceText(); // 換情境時也要更新
     try { localStorage.setItem("cityai-map", JSON.stringify({ ds: state.ds, res: state.res, metric: state.metric, lang: state.lang })); } catch (e) {}
   }
 
