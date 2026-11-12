@@ -385,11 +385,11 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
         road: {
           name: "道路長度", title: "道路長度 H3 地圖",
           source: "資料：Overture Maps transportation 2026-10-21 版，長度的 98.4% 來自 OpenStreetMap（© OpenStreetMap contributors）、1.6% 來自 TomTom，各地畫得齊不齊不同，沒有畫不代表沒有路。長度在 TWD97 二度分帶上量；雙向分隔的道路畫成兩條線，長度算兩次",
-          m: { t: "道路總長", m: "高速公路、快速道路", j: "主要幹道", n: "一般道路、巷道", s: "服務道路（巷弄、車道）", k: "產業道路、農路、林道", f: "人行道、步道、自行車道" },
-          legend: { t: "道路總長", m: "高速公路、快速道路長度", j: "主要幹道長度", n: "一般道路、巷道長度", s: "服務道路長度", k: "產業道路、農路、林道長度", f: "人行道、步道、自行車道長度" },
+          m: { t: "路網總長（含人行步道）", m: "高速公路、快速道路", j: "主要幹道", n: "一般道路、巷道", s: "服務道路（巷弄、車道）", k: "產業道路、農路、林道", f: "人行道、步道、自行車道" },
+          legend: { t: "道路加人行步道的總長", m: "高速公路、快速道路長度", j: "主要幹道長度", n: "一般道路、巷道長度", s: "服務道路長度", k: "產業道路、農路、林道長度", f: "人行道、步道、自行車道長度" },
           unit: " 公里",
-          summary: (s, r, f) => `res ${r}：${f(s.cells)} 格，道路共 ${f(s.sum.t)} 公里，其中高速公路、快速道路 ${f(s.sum.m)} 公里`,
-          tip: (o, f) => [`道路共 ${km3(o.t, f)} 公里`, `高速、快速道路 ${km3(o.m, f)}、主要幹道 ${km3(o.j, f)}、一般道路 ${km3(o.n, f)}`,
+          summary: (s, r, f) => `res ${r}：${f(s.cells)} 格，路網共 ${f(s.sum.t)} 公里（含人行步道），其中高速公路、快速道路 ${f(s.sum.m)} 公里`,
+          tip: (o, f) => [`路網共 ${km3(o.t, f)} 公里`, `高速、快速道路 ${km3(o.m, f)}、主要幹道 ${km3(o.j, f)}、一般道路 ${km3(o.n, f)}`,
             `服務道路 ${km3(o.s, f)}、產業道路 ${km3(o.k, f)}、人行步道 ${km3(o.f, f)}（公里）`],
         },
         bus: {
@@ -650,11 +650,11 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
         road: {
           name: "Road length", title: "Taiwan Road Length on H3",
           source: "Source: Overture Maps transportation, 2026-10-21 release; 98.4% of the length comes from OpenStreetMap (© OpenStreetMap contributors) and 1.6% from TomTom. Completeness varies by area and a missing road may still exist. Length is measured on TWD97 TM2; dual carriageways are drawn as two lines and counted twice",
-          m: { t: "All roads", m: "Motorways and expressways", j: "Major roads", n: "Local roads and lanes", s: "Service roads (alleys, driveways)", k: "Farm and forest tracks", f: "Footways, paths and cycleways" },
-          legend: { t: "Length of all roads", m: "Motorways and expressways", j: "Major roads", n: "Local roads and lanes", s: "Service roads", k: "Farm and forest tracks", f: "Footways, paths and cycleways" },
+          m: { t: "Total network (incl. footways)", m: "Motorways and expressways", j: "Major roads", n: "Local roads and lanes", s: "Service roads (alleys, driveways)", k: "Farm and forest tracks", f: "Footways, paths and cycleways" },
+          legend: { t: "Total length of roads and footways", m: "Motorways and expressways", j: "Major roads", n: "Local roads and lanes", s: "Service roads", k: "Farm and forest tracks", f: "Footways, paths and cycleways" },
           unit: " km",
-          summary: (s, r, f) => `res ${r}: ${f(s.cells)} cells, ${f(s.sum.t)} km of roads, ${f(s.sum.m)} km of them motorways and expressways`,
-          tip: (o, f) => [`${km3(o.t, f)} km of roads`, `Motorways ${km3(o.m, f)}, major ${km3(o.j, f)}, local ${km3(o.n, f)}`,
+          summary: (s, r, f) => `res ${r}: ${f(s.cells)} cells, ${f(s.sum.t)} km of network including footways, ${f(s.sum.m)} km of it motorways and expressways`,
+          tip: (o, f) => [`${km3(o.t, f)} km of network`, `Motorways ${km3(o.m, f)}, major ${km3(o.j, f)}, local ${km3(o.n, f)}`,
             `Service ${km3(o.s, f)}, tracks ${km3(o.k, f)}, footways ${km3(o.f, f)} (km)`],
         },
         bus: {
@@ -832,7 +832,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
       if (ds === "edu") { o.hi = o.phd + o.ms + o.uni; o.a = o.hi + o.jc + o.hs + o.jh + o.pri + o.self + o.illit + o.unk; }
       if (scen) o[scen] = o.o;
       if (ds === "vote") o.r = (100 * o.v) / o.a; // 投票率：和 make_map_data.py 一樣算
-      // 第 2 批另外算的值（總人口、道路總長、65 歲以上比例），和 make_map_data.py 一樣照順序一欄一欄加
+      // 第 2 批另外算的值（總人口、路網總長、65 歲以上比例），和 make_map_data.py 一樣照順序一欄一欄加
       if (dv) for (const [name, spec] of dv) {
         if (spec[0] === "sum") { let x = o[spec[1]]; for (let q = 2; q < spec.length; q++) x = x + o[spec[q]]; o[name] = x; }
         else o[name] = (100 * o[spec[1]]) / o[spec[2]];
