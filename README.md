@@ -26,7 +26,7 @@ CityAI 資料庫 26 張 H3 試做表的互動地圖，以 deck.gl 繪製，可�
 
 交通
 
-- 道路長度：Overture Maps transportation 2026-10-21 版，長度的 98.4% 來自 OpenStreetMap，1.6% 來自 TomTom
+- 路網長度：Overture Maps transportation 2026-10-21 版，長度的 98.4% 來自 OpenStreetMap，1.6% 來自 TomTom
 - 公車站牌與班次、公共自行車站、自行車道：交通部 TDX 運輸資料流通服務，2026-11-12 下載
 - 交通事故：內政部警政署 114 年傷亡道路交通事故
 

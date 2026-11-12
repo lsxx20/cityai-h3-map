@@ -240,7 +240,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
       groups: { pop: "人口與社會", built: "建物與土地", move: "交通", fac: "設施", env: "環境", haz: "災害潛勢" }, res: "解析度", metric: "顯示指標", lang: "語言", loading: "地圖載入中",
       area: { 7: "每格約 5 平方公里", 8: "每格約 0.74 平方公里", 9: "每格約 0.11 平方公里", 10: "每格約 0.015 平方公里" },
       head: (name, res, area) => `${name}（res ${res}，${area}）`,
-      cell: (id, r) => `網格 ${id}（res ${r}）`, loadingCells: "網格讀取中",
+      cell: (id, r) => `網格 ${id}（res ${r}）`, loadingCells: "讀取中",
       loadRetry: "部分網格讀取失敗，數秒後自動重試", loadFail: "部分網格讀取失敗，請移動地圖或重新整理頁面",
       few: (n) => `15 歲以上未滿 ${n} 人`,
       // 單位最後一個字是中文（「 人」「 公里」）就直接接「以下」；是符號或英文（「%」「 °C」「 nW/cm²/sr」）後面要空一格
@@ -386,7 +386,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
           tip: (o, f) => [`老人 ${f(o.a)} 人`, `屋齡 30 年以上 ${f(o.o)}、無電梯 2 至 5 樓 ${f(o.w)}、非鋼筋混凝土 ${f(o.n)}`, `三項條件皆符合 ${f(o.h)}`],
         },
         road: {
-          name: "道路長度", title: "道路長度 H3 地圖",
+          name: "路網長度", title: "路網長度 H3 地圖",
           source: "資料來源：Overture Maps transportation 2026-10-21 版，長度的 98.4% 來自 OpenStreetMap（© OpenStreetMap contributors），1.6% 來自 TomTom。各地完整度不一，未收錄不代表沒有道路。長度以 TWD97 二度分帶計算；雙向分隔道路以兩條線表示，長度計算兩次",
           m: { t: "路網總長（含人行步道）", m: "高速公路、快速道路", j: "主要幹道", n: "一般道路、巷道", s: "服務道路（巷弄、車道）", k: "產業道路、農路、林道", f: "人行道、步道、自行車道" },
           legend: { t: "含人行步道的路網總長", m: "高速公路、快速道路長度", j: "主要幹道長度", n: "一般道路、巷道長度", s: "服務道路長度", k: "產業道路、農路、林道長度", f: "人行道、步道、自行車道長度" },
@@ -506,7 +506,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
       groups: { pop: "Population and society", built: "Buildings and land", move: "Transport", fac: "Facilities", env: "Environment", haz: "Hazard potential" }, res: "Resolution", metric: "Metric", lang: "Language", loading: "Loading map",
       area: { 7: "about 5 km² per cell", 8: "about 0.74 km² per cell", 9: "about 0.11 km² per cell", 10: "about 0.015 km² per cell" },
       head: (name, res, area) => `${name} (res ${res}, ${area})`,
-      cell: (id, r) => `Cell ${id} (res ${r})`, loadingCells: "Loading cells",
+      cell: (id, r) => `Cell ${id} (res ${r})`, loadingCells: "Loading",
       loadRetry: "Some cells failed to load. Retrying in a few seconds", loadFail: "Some cells failed to load. Move the map or reload the page to try again",
       few: (n) => `Fewer than ${n} residents aged 15+`,
       range: (lo, hi, u) => (lo === hi ? `${lo}${u}` : `${lo} to ${hi}${u}`), over: (lo, u) => `${lo}${u} or more`,
@@ -653,7 +653,7 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); o
           tip: (o, f) => [`${f(o.a)} older residents`, `Buildings 30+ years ${f(o.o)}, walk-up floors 2–5 ${f(o.w)}, not RC ${f(o.n)}`, `All three conditions ${f(o.h)}`],
         },
         road: {
-          name: "Road length", title: "Taiwan Road Length on H3",
+          name: "Road network length", title: "Taiwan Road Network Length on H3",
           source: "Source: Overture Maps transportation, 2026-10-21 release; 98.4% of the length comes from OpenStreetMap (© OpenStreetMap contributors) and 1.6% from TomTom. Completeness varies by area; an unmapped road may still exist. Length is measured on TWD97 TM2; dual carriageways are drawn as two lines and counted twice",
           m: { t: "Total network (incl. footways)", m: "Motorways and expressways", j: "Major roads", n: "Local roads and lanes", s: "Service roads (alleys, driveways)", k: "Farm and forest tracks", f: "Footways, paths and cycleways" },
           legend: { t: "Total network length, including footways", m: "Motorways and expressways", j: "Major roads", n: "Local roads and lanes", s: "Service roads", k: "Farm and forest tracks", f: "Footways, paths and cycleways" },
